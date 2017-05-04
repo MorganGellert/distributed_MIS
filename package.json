@@ -1,0 +1,22 @@
+{
+  "name": "dmis",
+  "version": "1.0.0",
+  "description": "��#\u0000 \u0000d\u0000i\u0000s\u0000t\u0000r\u0000i\u0000b\u0000u\u0000t\u0000e\u0000d\u0000_\u0000M\u0000I\u0000S\u0000\r\u0000 \u0000",
+  "main": "cola.v3.min.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MorganGellert/distributed_MIS.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MorganGellert/distributed_MIS/issues"
+  },
+  "homepage": "https://github.com/MorganGellert/distributed_MIS#readme",
+  "dependencies": {
+    "express": "^4.15.2"
+  }
+}
