@@ -8,7 +8,7 @@ var instance = greuler({
     target: '#luby',
     height: 500,
     animationTime: 800,
-    data: greuler.Graph.random({ connected: true })
+    data: greuler.Graph.random({order : 15, size : 25, connected: true })
 }).update();
 
 window.site.run = function () {
@@ -76,4 +76,14 @@ window.site.run = function () {
             instance.update({ skipLayout: true });
         }
     });
-}
+};
+
+
+window.site.reset = function () {
+    instance = greuler({
+        target: '#luby',
+        height: 500,
+        animationTime: 800,
+        data: greuler.Graph.random({order : 15, size : 25, connected: true })
+    }).update();
+};
