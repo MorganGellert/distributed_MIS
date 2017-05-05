@@ -1,6 +1,7 @@
 'use strict';
 
-(function () {
+  var site = window.site = {};
+ 
   var greuler = window.greuler;
 
   var instance = greuler({
@@ -54,4 +55,3 @@
       yield *dfs(0, -1);
     });
   };
-})();
