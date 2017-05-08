@@ -12,8 +12,10 @@ var instance = greuler({
 }).update();
 
 var desire_level = [];
+var in_mis = [];
 instance.graph.nodes.forEach(function (element) {
     desire_level[element.id] = 0.5;
+    in_mis[element.id] = false;
     element.topLeftLabel = parseFloat(desire_level[element.id]).toFixed(4);
 });
 
@@ -27,7 +29,7 @@ window.site.run = function () {
         // Calculate Effective Degree
         var effective_degree = [];
         yield function () {
-            instance.graph.nodes.forEach(function (element) {
+            instance.graph.getNodesByFn(function(n) {return !in_mis[n.id]}).forEach(function(element) {
                 effective_degree[element.id] = 0
                 instance.graph.getAdjacentNodes(element).forEach(function (element) {
                     effective_degree[this.id] += desire_level[element.id]
@@ -40,7 +42,7 @@ window.site.run = function () {
         };
         // update Desire Levels
         yield function () {
-            instance.graph.nodes.forEach(function (element) {
+            instance.graph.getNodesByFn(function(n) {return !in_mis[n.id]}).forEach(function(element) {
                 if (effective_degree[element.id] >= 2) {
                     desire_level[element.id] *= 0.5
                 } else {
@@ -58,7 +60,7 @@ window.site.run = function () {
         var marked = [];
         var neighbor_marked = [];
         yield function () {
-            instance.graph.nodes.forEach(function (element) {
+            instance.graph.getNodesByFn(function(n) {return !in_mis[n.id]}).forEach(function(element) {
                 marked[element.id] = (Math.random() < desire_level[element.id])
                 if (marked[element.id]) {
                     instance.selector.highlightNode(element);
@@ -74,10 +76,9 @@ window.site.run = function () {
         };
 
         // Calculate nodes added to the Maximal Independent Set
-        var in_mis = [];
         var adjacent_to_mis = [];
         yield function () {
-            instance.graph.nodes.forEach(function (element) {
+            instance.graph.getNodesByFn(function(n) {return !in_mis[n.id]}).forEach(function(element) {
                 in_mis[element.id] = !neighbor_marked[element.id] && marked[element.id];
             });
         };
@@ -86,7 +87,7 @@ window.site.run = function () {
         
         yield function () {
             instance.graph.getNodesByFn(function(n) {return in_mis[n.id]}).forEach(function(element) {
-                instance.selector.highlightNode(element);
+                // instance.selector.highlightNode(element);
                 instance.selector.getNode(element)
                                     .transition()
                                     .attr('fill', 'red');
@@ -105,9 +106,9 @@ window.site.run = function () {
         // Color and remove nodes adjacent to those in the MIS
         yield function () {
             instance.graph.removeNodesByFn(function(node) {
-                return in_mis[node.id] || adjacent_to_mis[node.id]
+                return adjacent_to_mis[node.id]
             });
-            instance.graph.nodes.forEach(function (element) {
+            instance.graph.getNodesByFn(function(n) {return !in_mis[n.id]}).forEach(function(element) {
                 instance.selector.getNode(element)
                                     .transition()
                                     .attr('fill', float_to_color(desire_level[element.id]));
