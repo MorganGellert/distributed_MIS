@@ -2,3 +2,5 @@ node_modules
 .npm
 _build
 _templates
+.*.swp
+.*.swo
