@@ -13,8 +13,13 @@ var instance = greuler({
 
 var desire_level = [];
 instance.graph.nodes.forEach(function (element) {
-    desire_level[element.id] = 1.0;
+    desire_level[element.id] = 0.5;
+    element.topLeftLabel = parseFloat(desire_level[element.id]).toFixed(4);
 });
+
+function float_to_color (x) {
+    return '#2980' + Number(parseInt(x * 255 * 2 , 10)).toString(16);
+}
 
 window.site.run = function () {
     var player = window.site.generator = new greuler.player.Generator(instance);
@@ -23,9 +28,6 @@ window.site.run = function () {
         var effective_degree = [];
         yield function () {
             instance.graph.nodes.forEach(function (element) {
-                instance.selector.getNode(element)
-                                    .transition()
-                                    .attr('fill', '#2980B9');
                 effective_degree[element.id] = 0
                 instance.graph.getAdjacentNodes(element).forEach(function (element) {
                     effective_degree[this.id] += desire_level[element.id]
@@ -45,6 +47,9 @@ window.site.run = function () {
                     desire_level[element.id] = Math.min(2 * desire_level[element.id], 0.5)
                 }
                 element.topLeftLabel = parseFloat(desire_level[element.id]).toFixed(4);
+                instance.selector.getNode(element)
+                                    .transition()
+                                    .attr('fill', float_to_color(desire_level[element.id]));
             });
             instance.update({ skipLayout: true });
         };
@@ -59,7 +64,7 @@ window.site.run = function () {
                     instance.selector.highlightNode(element);
                     instance.selector.getNode(element)
                                         .transition()
-                                        .attr('fill', 'red');
+                                        .attr('fill', 'green');
                     // identify neighbors
                     instance.graph.getAdjacentNodes(element).forEach(function(element) {
                         neighbor_marked[element.id] = true;
@@ -84,11 +89,14 @@ window.site.run = function () {
                 instance.selector.highlightNode(element);
                 instance.selector.getNode(element)
                                     .transition()
-                                    .attr('fill', 'black');
+                                    .attr('fill', 'red');
 
                 instance.graph.getAdjacentNodes(element).forEach(function (element) {
+                    instance.selector.getNode(element)
+                                    .transition()
+                                    .attr('fill', 'black');
                     adjacent_to_mis[element.id] = true
-                    instance.selector.traverseAllEdgesBetween({source : element.id, target : this.id});
+                    instance.selector.traverseAllEdgesBetween({source : this.id, target : element.id});
                 }, element);
             });
             instance.update({ skipLayout: true });
@@ -102,7 +110,7 @@ window.site.run = function () {
             instance.graph.nodes.forEach(function (element) {
                 instance.selector.getNode(element)
                                     .transition()
-                                    .attr('fill', '#2980B9');
+                                    .attr('fill', float_to_color(desire_level[element.id]));
             });
             instance.update({ skipLayout: true });
         }
@@ -118,6 +126,8 @@ window.site.reset = function () {
         data: greuler.Graph.random({order : 15, size : 25, connected: true })
     }).update();
     instance.graph.nodes.forEach(function (element) {
-        desire_level[element.id] = 1.0;
+        desire_level[element.id] = 0.5;
+        element.topLeftLabel = parseFloat(desire_level[element.id]).toFixed(4);
     });
+    instance.update({ skipLayout: true });
 };
