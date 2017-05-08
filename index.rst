@@ -52,6 +52,9 @@ Lubys Algorithm
 Ghaffari's Algorithm
 --------------------
 
+Visualization
++++++++++++++
+
 .. raw:: html
 
     <embed>
@@ -78,6 +81,24 @@ Ghaffari's Algorithm
       <button onclick="myrun()"> One Ghaffari Iteration</button>
       <button onclick="reset_luby()"> Reset Graph </button>
     </embed>
+
+
+The Algorithm
++++++++++++++
+
+
+**The Algorithm**: In each round *t*, each node *v* has a *desire-level* :math:`p_t(v)` for joining MIS, which initially is set to :math:`p_1(v) = \frac{1}{2}`. We call total sum of the desire-levels of neighbors of *v* it's *effective-degree* :math:`d_t(v)`, i.e., :math:`d_t(v) = \sum_{u \in N(v)} p_t(u)`. The desire-levels change over time as follows:
+
+.. math::
+    :label: ghaffari
+
+    p_{t+1}(v) = 
+    \begin{cases}
+    p_t(v) / 2, & \text{ if } d_t(v) \ge 2 \\ 
+    min\{2p_t(v), 1/2\} & \text{ if } d_t(v) < 2.)
+    \end{cases}
+
+The desire-levels are used as follows: In each round, node *v* gets *marked* with probability :math:`p_t(v)` and if no neighbor of *v* is marked, *v* joins the MIS and gets removed along with its neighbors.
 
 
 References
