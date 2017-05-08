@@ -6,6 +6,9 @@
 Welcome to distributed_MIS's documentation!
 ===========================================
 
+Lubys Algorithm
+---------------
+
 .. raw:: html 
 
     <embed>
@@ -35,11 +38,40 @@ Welcome to distributed_MIS's documentation!
   </embed>
 
 
+
+Ghaffari's Algorithm
+--------------------
+
+.. raw:: html
+
+    <embed>
+      <script src="http://d3js.org/d3.v3.min.js"></script>
+      <script src="http://maurizzzio.github.io/greuler/scripts/lib/cola.v3.js"></script>
+      <script src="http://maurizzzio.github.io/greuler/greuler.min.js"></script>
+      <div id="ghaffari_demo"><div id="ghaffari"></div></div>
+      <script src=_static/ghaffari.js>  </script>
+      <script>
+      myrun = function() {
+        window.site.run();
+      }
+      reset_luby = function() {
+        var parent = document.getElementById("ghaffari_demo");
+        var child =  document.getElementById("ghaffari");
+        parent.removeChild(child);
+        var new_child = document.createElement("div");
+        new_child.id = "ghaffari";
+        parent.appendChild(new_child);
+        window.site.reset();
+      }
+      </script>
+
+      <button onclick="myrun()"> One Ghaffari Iteration</button>
+      <button onclick="reset_luby()"> Reset Graph </button>
+    </embed>
+
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
-
-
 
 Indices and tables
 ==================
