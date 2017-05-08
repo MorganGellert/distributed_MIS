@@ -11,6 +11,10 @@ var instance = greuler({
     data: greuler.Graph.random({order : 15, size : 25, connected: true })
 }).update();
 
+
+var in_mis = [];
+
+
 window.site.run = function () {
     var player = window.site.generator = new greuler.player.Generator(instance);
     player.run(function *algorithm(instance) {
@@ -18,7 +22,7 @@ window.site.run = function () {
         // give all nodes a random value between 0 and 1
         var node_vals = [];
         yield function () {
-            instance.graph.nodes.forEach(function (element) {
+            instance.graph.getNodesByFn(function (n) {return !in_mis[n.id]}).forEach(function (element) {
                 node_vals[element.id] = Math.random();
                 element.topRightLabel = parseFloat(node_vals[element.id]).toFixed(2);
                 instance.selector.highlightNode(element);
@@ -30,7 +34,7 @@ window.site.run = function () {
         var not_marked = [];
         var neighbor_marked = [];
         yield function () {
-            instance.graph.nodes.forEach(function (element) {
+            instance.graph.getNodesByFn(function (n) {return !in_mis[n.id]}).forEach(function (element) {
                 instance.graph.getAdjacentNodes(element).forEach(function (element) {
                     if (node_vals[element.id] <= node_vals[this.id]) {
                         not_marked[this.id] = true;
@@ -39,6 +43,7 @@ window.site.run = function () {
 
 
                 if (!not_marked[element.id]) {
+                    in_mis[element.id] = true;
                     instance.selector.highlightNode(element);
                     instance.selector.getNode(element)
                                         .transition()
@@ -71,7 +76,7 @@ window.site.run = function () {
         // die nodes die
         yield function () {
             instance.graph.removeNodesByFn(function(node) {
-                return !not_marked[node.id] || neighbor_marked[node.id];
+                return neighbor_marked[node.id];
             });
             instance.update({ skipLayout: true });
         }
@@ -82,8 +87,9 @@ window.site.run = function () {
 window.site.reset = function () {
     instance = greuler({
         target: '#luby',
-        height: 500,
+        height: 1000,
         animationTime: 800,
         data: greuler.Graph.random({order : 15, size : 25, connected: true })
     }).update();
+    in_mis = [];
 };
