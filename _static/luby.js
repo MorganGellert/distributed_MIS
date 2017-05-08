@@ -87,7 +87,7 @@ window.site.run = function () {
 window.site.reset = function () {
     instance = greuler({
         target: '#luby',
-        height: 1000,
+        height: 500,
         animationTime: 800,
         data: greuler.Graph.random({order : 15, size : 25, connected: true })
     }).update();
