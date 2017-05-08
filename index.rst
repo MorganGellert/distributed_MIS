@@ -3,8 +3,8 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to distributed_MIS's documentation!
-===========================================
+Algorithms for Distributed Maximal Independent Set
+==================================================
 
 Lubys Algorithm
 ---------------
@@ -69,13 +69,13 @@ Ghaffari's Algorithm
       <button onclick="reset_luby()"> Reset Graph </button>
     </embed>
 
+
+References
+----------
+    
+.. [#] Mohsen Ghaffari, "An Improved Distributed Algorithm for Maximal Independent Set", CoRR 2015.
+
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
 
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
