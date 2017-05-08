@@ -3,11 +3,21 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
+==========================================================
 Algorithms for Distributed Maximal Independent Set
-==================================================
+==========================================================
+  By Morgan Gellert and Alex Tong
+
+
+The Problem
+==========================
+
+A maximal independent set is a subset :math:`H` of a graph :math:`G` which has no nodes that connect to each other. Additionally, there are no elements in :math:`G - H` that could be added to :math:`H` that would not violate this requirement.
+
 
 Lubys Algorithm
----------------
+===========================
+
 
 .. raw:: html 
 
