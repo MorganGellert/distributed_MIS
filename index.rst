@@ -88,7 +88,7 @@ Visualization
       <script src=_static/ghaffari.js>  </script>
       <script>
       myrun2 = function() {
-        window.site.run();
+        window.site2.run_ghaffari();
       }
       reset_ghaffari = function() {
         var parent = document.getElementById("ghaffari_demo");
@@ -97,7 +97,7 @@ Visualization
         var new_child = document.createElement("div");
         new_child.id = "ghaffari";
         parent.appendChild(new_child);
-        window.site.reset();
+        window.site2.reset_ghaffari();
       }
       </script>
 

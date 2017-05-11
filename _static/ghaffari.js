@@ -1,6 +1,6 @@
 'use strict';
 
-var site = window.site = {};
+ window.site2 = {};
 
 var greuler = window.greuler;
 
@@ -23,7 +23,7 @@ function float_to_color (x) {
     return '#2980' + Number(parseInt(x * 255 * 2 , 10)).toString(16);
 }
 
-window.site.run = function () {
+window.site2.run_ghaffari = function () {
     var player = window.site.generator = new greuler.player.Generator(instance);
     player.run(function *algorithm(instance) {
         // Calculate Effective Degree
@@ -119,7 +119,7 @@ window.site.run = function () {
 };
 
 
-window.site.reset = function () {
+window.site2.reset_ghaffari = function () {
     instance = greuler({
         target: '#ghaffari',
         height: 500,
