@@ -145,3 +145,21 @@ window.site2.reset_ghaffari = function () {
     });
     instance.update({ skipLayout: true });
 };
+
+
+window.site2.k6_ghaffari = function () {
+    instance = greuler({
+        target: '#ghaffari',
+        height: 500,
+        animationTime: 800,
+        data: greuler.Graph.random({order : 6, size : 15, connected: true })
+    }).update();
+    in_mis = [];
+    not_in_mis = [];
+    instance.graph.nodes.forEach(function (element) {
+        desire_level[element.id] = 0.5;
+        in_mis[element.id] = false;
+        element.topLeftLabel = parseFloat(desire_level[element.id]).toFixed(4);
+    });
+    instance.update({ skipLayout: true });
+}

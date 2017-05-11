@@ -94,3 +94,14 @@ window.site.reset = function () {
     in_mis = [];
     not_in_mis = [];
 };
+
+window.site.k6_luby = function () {
+    instance = greuler({
+        target: '#luby',
+        height: 500,
+        animationTime: 800,
+        data: greuler.Graph.random({order : 6, size : 15, connected: true })
+    }).update();
+    in_mis = [];
+    not_in_mis = [];
+}

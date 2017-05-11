@@ -74,10 +74,20 @@ The number associated with each node is simply a random value between 0 and 1. N
     parent.appendChild(new_child);
     window.site.reset();
   }
+  k6_luby = function() {
+    var parent = document.getElementById("luby_demo");
+    var child =  document.getElementById("luby");
+    parent.removeChild(child);
+    var new_child = document.createElement("div");
+    new_child.id = "luby";
+    parent.appendChild(new_child);
+    window.site.k6_luby();
+  }
   </script>
 
   <button onclick="myrun()"> One Luby Iteration</button>
-  <button onclick="reset_luby()"> Reset Graph </button>
+  <button onclick="reset_luby()"> Random Graph </button>
+  <button onclick="k6_luby()"> K6 </button>
   </embed>
 
 The Algorithm
@@ -129,10 +139,20 @@ Each node has two numbers associated with it on the left we have the *desire-lev
         parent.appendChild(new_child);
         window.site2.reset_ghaffari();
       }
+      k6_ghaffari = function() {
+        var parent = document.getElementById("ghaffari_demo");
+        var child =  document.getElementById("ghaffari");
+        parent.removeChild(child);
+        var new_child = document.createElement("div");
+        new_child.id = "ghaffari";
+        parent.appendChild(new_child);
+        window.site2.k6_ghaffari();
+      }
       </script>
 
       <button onclick="myrun2()"> One Ghaffari Iteration</button>
-      <button onclick="reset_ghaffari()"> Reset Graph </button>
+      <button onclick="reset_ghaffari()"> Random Graph </button>
+      <button onclick="k6_ghaffari()"> K6 </button>
     </embed>
 
 The Algorithm
