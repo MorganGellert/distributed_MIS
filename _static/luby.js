@@ -13,16 +13,20 @@ var instance = greuler({
 
 
 var in_mis = [];
+var not_in_mis = [];
 
 
 window.site.run = function () {
     var player = window.site.generator = new greuler.player.Generator(instance);
     player.run(function *algorithm(instance) {
         
+        var prev_in_mis = Array.from(in_mis);
+        var prev_not_in_mis = Array.from(not_in_mis);
+
         // give all nodes a random value between 0 and 1
         var node_vals = [];
         yield function () {
-            instance.graph.getNodesByFn(function (n) {return !in_mis[n.id]}).forEach(function (element) {
+            instance.graph.getNodesByFn(function (n) {return !prev_in_mis[n.id] && !not_in_mis[n.id]}).forEach(function (element) {
                 node_vals[element.id] = Math.random();
                 element.topRightLabel = parseFloat(node_vals[element.id]).toFixed(2);
                 instance.selector.highlightNode(element);
@@ -34,10 +38,12 @@ window.site.run = function () {
         var not_marked = [];
         var neighbor_marked = [];
         yield function () {
-            instance.graph.getNodesByFn(function (n) {return !in_mis[n.id]}).forEach(function (element) {
+            instance.graph.getNodesByFn(function (n) {return !prev_in_mis[n.id] && !prev_not_in_mis[n.id]}).forEach(function (element) {
                 instance.graph.getAdjacentNodes(element).forEach(function (element) {
-                    if (node_vals[element.id] <= node_vals[this.id]) {
-                        not_marked[this.id] = true;
+                    if (!prev_in_mis[element.id] && !prev_not_in_mis[element.id]) {
+                        if (node_vals[element.id] <= node_vals[this.id]) {
+                            not_marked[this.id] = true;
+                        }
                     }
                 }, element);
 
@@ -50,7 +56,10 @@ window.site.run = function () {
                                         .attr('fill', 'red');
                     // identify neighbors
                     instance.graph.getAdjacentNodes(element).forEach(function(element) {
-                        neighbor_marked[element.id] = true;
+                        if(!prev_in_mis[element.id] && !prev_not_in_mis[element.id]) {
+                            neighbor_marked[element.id] = true;
+                            not_in_mis[element.id] = true;
+                        }
                     });
                 }
             });
@@ -65,20 +74,11 @@ window.site.run = function () {
                                     .attr('fill', 'black');
 
                 instance.graph.getAdjacentNodes(element).forEach(function (element) {
-                    console.log("hi");
-                    if (!not_marked[element.id]) {
+                    if (!not_marked[element.id] && !prev_in_mis[element.id] && !prev_not_in_mis[element.id]) {
                         instance.selector.traverseAllEdgesBetween({source : element.id, target : this.id});
                     }
                 }, element);
             });
-        }
-
-        // die nodes die
-        yield function () {
-            instance.graph.removeNodesByFn(function(node) {
-                return neighbor_marked[node.id];
-            });
-            instance.update({ skipLayout: true });
         }
     });
 };
@@ -92,4 +92,5 @@ window.site.reset = function () {
         data: greuler.Graph.random({order : 15, size : 25, connected: true })
     }).update();
     in_mis = [];
+    not_in_mis = [];
 };

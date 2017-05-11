@@ -50,7 +50,7 @@ Visualization
   </embed>
 
 
-The number associated with each node is simply a random value between 0 and 1. Nodes that will be added to the Maximal Independent Set is marked red. It's neighbors are marked black just before being removed from the graph.
+The number associated with each node is simply a random value between 0 and 1. Nodes that will be added to the Maximal Independent Set is marked red. Elements that are definitely not in the MIS are marked black. 
 
 The Algorithm
 +++++++++++++
