@@ -121,9 +121,6 @@ Each node has two numbers associated with it on the left we have the *desire-lev
 .. raw:: html
 
     <embed>
-      <script src="_static/d3.v3.min.js"></script>
-      <script src="_static/cola.v3.js"></script>
-      <script src="_static/greuler.min.js"></script>
       <div id="ghaffari_demo"><div id="ghaffari"></div></div>
       <script src=_static/ghaffari.js>  </script>
       <script>
