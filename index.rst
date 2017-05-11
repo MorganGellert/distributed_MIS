@@ -18,6 +18,8 @@ A maximal independent set is a subset :math:`H` of a graph :math:`G` which has n
 Lubys Algorithm
 ---------------
 
+Visualization
++++++++++++++
 
 .. raw:: html 
 
@@ -47,6 +49,27 @@ Lubys Algorithm
   <button onclick="reset_luby()"> Reset Graph </button>
   </embed>
 
+
+The number associated with each node is simply a random value between 0 and 1. Nodes that will be added to the Maximal Independent Set is marked red. It's neighbors are marked black just before being removed from the graph.
+
+The Algorithm
++++++++++++++
+
+Luby's Algorithm presents a :math:`O(log(|V|))` algorithm from computing a Maximal Independent Set. While it is true that each node finishes with high probability in :math:`O(log \Delta)` where :math:`\Delta` is its degree, it has been notoriously difficult to improve the global time complexity.
+
+The algorithm is incredibly simple: in each round each node is marked with a number between 0 and 1. Local minima are added to the Maximal Independent Set and their neighbors are removed from the graph. [Luby]_
+
+
+Time Complexity
+++++++++++++++++
+
+1. For each edge :math:`(u,v)` replace it with two directed edges :math:`(u \rightarrow v)` and :math:`(v \rightarrow u)`. Note that :math:`|E|` is now twice as large. Define the event :math:`u \rightarrow v` to be the case that :math:`u` removes :math:`v` by becoming part of the Maximal Independent Set and is the smallest neighbor of :math:`v` and vice versa. 
+
+2. The probability of :math:`v` being removed is :math:`\frac{1}{d(v) + d(u)}`. This is because the random number generated for :math:`v` has probability :math:`\frac{1}{d(v)}` of being the smallest, but the neighbors of :math:`w` must also be counted because they could also be neighbors of :math:`v`. The probability that :math:`w` is removed is the same.
+
+3. The expected value of the number of edges removed for the event :math:`v \rightarrow u` is :math:`\frac{d(v)}{d(v) + d(u)}` because when :math:`v` is removed :math:`d(v)` edges are removed. :math:`\frac{d(u)}{d(v) + d(u)}` edges are removed for the event :math:`u \rightarrow v` for the same reasoning. The expected number of edges removed due to one of :math:`v` or :math:`u` being the smallest value in its neighborhood is therefore :math:`\frac{d(v)}{d(v) + d(u)} + \frac{d(u)}{d(v) + d(u)} = 1`.
+
+4. Summing over all edges gives :math:`\sum_E 1 = |E|` edges being removed at every step. But because each edge is counted twice in this new definition, :math:`\frac{|E|}{2}` are removed in expectation instead.
 
 
 Ghaffari's Algorithm
@@ -82,7 +105,7 @@ Visualization
       <button onclick="reset_ghaffari()"> Reset Graph </button>
     </embed>
 
-Each node has two numbers associated with it on the left we have the *desire-level* of the node and on the right we have the *effective-degree* of that node. Each node is colored a shade of blue according to its probability of being marked in the next round. All nodes are turned green (marked) with probability equal to their *desire-level*. Then any marked green node that has no green neighbors is marked red as belonging to the Maximal Independent Set, and its neighbors are removed. 
+Each node has two numbers associated with it on the left we have the *desire-level* of the node and on the right we have the *effective-degree* of that node. Each node is colored a shade of blue according to its probability of being marked in the next round. All nodes are turned green (marked) with probability equal to their *desire-level*. Then any marked green node that has no green neighbors is marked red as belonging to the Maximal Independent Set, and its neighbors are removed.
 
 
 The Algorithm
@@ -150,6 +173,8 @@ References
 .. [Ghaffari] Mohsen Ghaffari, "An Improved Distributed Algorithm for Maximal Independent Set", CoRR 2015.
 
 .. [Barenboim] Barenboim, Leonid, and Michael Elkin. "Sublogarithmic distributed MIS algorithm for sparse graphs using Nash-Williams decomposition." Distributed Computing 22.5-6 (2010): 363-379.
+
+.. [Luby] Luby, Michael. "A Simple Parallel Algorithm for the Maximal Independent Set Problem." SIAM Journal on Computing. 1985.
 
 .. toctree::
    :maxdepth: 2
