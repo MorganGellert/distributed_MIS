@@ -128,6 +128,7 @@ window.site.reset = function () {
     }).update();
     instance.graph.nodes.forEach(function (element) {
         desire_level[element.id] = 0.5;
+        in_mis[element.id] = false;
         element.topLeftLabel = parseFloat(desire_level[element.id]).toFixed(4);
     });
     instance.update({ skipLayout: true });

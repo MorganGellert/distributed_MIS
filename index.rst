@@ -10,13 +10,13 @@ Algorithms for Distributed Maximal Independent Set
 
 
 The Problem
-==========================
+-----------
 
 A maximal independent set is a subset :math:`H` of a graph :math:`G` which has no nodes that connect to each other. Additionally, there are no elements in :math:`G - H` that could be added to :math:`H` that would not violate this requirement.
 
 
 Lubys Algorithm
-===========================
+---------------
 
 
 .. raw:: html 
@@ -82,6 +82,8 @@ Visualization
       <button onclick="reset_luby()"> Reset Graph </button>
     </embed>
 
+Each node has two numbers associated with it on the left we have the *desire-level* of the node and on the right we have the *effective-degree* of that node. Each node is colored a shade of blue according to its probability of being marked in the next round. All nodes are turned green (marked) with probability equal to their *desire-level*. Then any marked green node that has no green neighbors is marked red as belonging to the Maximal Independent Set, and its neighbors are removed. 
+
 
 The Algorithm
 +++++++++++++
@@ -116,16 +118,30 @@ The Intuition
 
 2. The update formula for :math:`p_{t+1}(v)` drives *desire-level* and *effective-degree* of a node apart. When the *desire-level* is high :math:`p_t(v)` gets lower, and when *desire-level* is low :math:`p_t(v)` gets highter. 
 
-3. 
+3. If we perform local analysis, i.e. analyze time complexity in terms of the degree of each node :math:`\Delta` instead of in terms of :math:`n` then this leads to a tighter upper bound on time complexity in problems which are very separable. For the distributed MIS problem we only need to consider neighbors at distance less than or equal to 2 to find the probability of a specific node *v* being removed at a timestep. We can exploit this local property to get a time complexity in terms of :math:`\Delta`.
 
+Time Complexity Sketch Proof
+++++++++++++++++++++++++++++
 
+The full proof can be found in [Ghaffari]_'s paper. Here we will provide a short summary of the proof. 
 
+1. Let :math:`G = (V,E)`, for all :math:`v \in V` the probability that v still exists after :math:`O(log(deg) + log(\epsilon))` rounds is at most :math:`\epsilon`.
 
+    a. Consider rounds where (1) :math:`d_t(v) \lt 2` and :math:`p_t(v) = 1/2` and (2) rounds where :math:`d_v(t) \ge 1` and at least :math:`d_t(v) / 10` of it is contributed by *low-degree* neighbors where low degree is defined as :math:`d_v(t) \lt 2`. 
 
+    Type 1 has a high probability of becoming part of the maximal independent set, in fact it has a constant chance of doing so in :math:`O(log(deg))` rounds. 
 
+    Type 2 has a constant probaiity of getting removed by one of its neighbors in the next :math:`O(log(deg))` rounds. 
 
+    b. Considering the above, we can conclude that with a high enough constant we can get an arbitrarily high probability that any node *v* is removed. Let probaility of *v* being removed in :math:`O(log(deg))` rounds be *z*. As the probability that *v* is removed could be expressed as:
 
+    .. math::
 
+        P(\text{V removed in c rounds of length } O(log(deg))) = 1 - (\frac{1}{z})^c 
+
+    As C tends to infinity, the probability of V being removed is arbitrarily close to 1.
+
+2. We run the algorithm for :math:`O(log \Delta)` rounds. The second part of the algorithm relys on graph shattering. Essentially, the idea that once enough nodes are randomly removed, we are left with a lot of small subgraphs. These small subgraphs can be solved with a deterministic algorithm that runs in :math:`2^{O(log n)}` time. The graph shatters to small subgraphs of size at most :math:`O(\Delta ^ 4)`. Combined with the above deterministic algorithm, this leads to an additional :math:`2^{O( \sqrt{ log \Delta + log log n})}` time.  With a small improvement we get this down to the final time complexity of :math:`O( log \Delta) + 2 ^ {O( \sqrt{log log n})}`.
 
 
 References
