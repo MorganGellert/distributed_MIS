@@ -31,6 +31,18 @@ Trivially,  an algorithm that runs in :math:`O(log n)` time means that each node
 
 For analysis, algorithms that restrict the range of communication allow for simpler proofs and clearer intuitions. 
 
+Local vs. Global Time Complexity
+++++++++++++++++++++++++++++++++
+
+When we talk about time complexity generally we are considering the global time complexity, i.e. the time that it takes the algorithm to complete on all nodes with high probability.
+The Local time complexity asks the question: What is the time guarantee with regards to a single node instead?
+
+The local time complexity is equivalent to the global time complexity for deterministic algorithms, but in the distributed maximal independent set case, we would like to prove a time complexity bound on a node relative to it's degree and independent of *n*.
+
+We define the local complexity question as the following. How long does it take till a node *v* knows whether it is in the MIS or not with high probability?
+
+We might care about the local time complexity as it may capture information, and therefore lead to a lower overall time complexity, that a global analysis might not.
+
 
 Lubys Algorithm
 ---------------
@@ -126,7 +138,7 @@ Each node has two numbers associated with it on the left we have the *desire-lev
 The Algorithm
 +++++++++++++
 
-Ghaffari's Algorithm presents an algorithm that completes with high probability in 
+Ghaffari's algorithm completes with high probability in 
 :math:`O(log \Delta) + 2 ^ {O \sqrt{log log n}}` time where :math:`\Delta` is maximum degree. 
 This improved the previous results of :math:`O(log ^ 2 \Delta) + 2 ^ {O \sqrt{log log n}}` by Barenboim et al [Barenboim]_.
 
@@ -147,7 +159,7 @@ The desire-levels are used as follows: In each round, node *v* gets *marked* wit
 The Intuition
 +++++++++++++
 
-1. A node will are likely two be marked in one of two cases:
+1. A node will are likely to be marked in one of two cases:
 
     a. The node has a high *desire-level* and all of its neighbors have low *desire-level*. 
     b. The node has a low *desire-level* and one of its neighbors have high *desire-level*
@@ -169,7 +181,7 @@ The full proof can be found in [Ghaffari]_'s paper. Here we will provide a short
 
     Type 1 has a high probability of becoming part of the maximal independent set, in fact it has a constant chance of doing so in :math:`O(log(deg))` rounds. 
 
-    Type 2 has a constant probaiity of getting removed by one of its neighbors in the next :math:`O(log(deg))` rounds. 
+    Type 2 has a constant probability of getting removed by one of its neighbors in the next :math:`O(log(deg))` rounds. 
 
     b. Considering the above, we can conclude that with a high enough constant we can get an arbitrarily high probability that any node *v* is removed. Let probaility of *v* being removed in :math:`O(log(deg))` rounds be *z*. As the probability that *v* is removed could be expressed as:
 
@@ -185,13 +197,13 @@ The full proof can be found in [Ghaffari]_'s paper. Here we will provide a short
 References
 ----------
     
-.. [Ghaffari] Mohsen Ghaffari, "An Improved Distributed Algorithm for Maximal Independent Set", ACM-SIAM Symposium on Discrete Algorithms (SODA) 2016.
+.. [Ghaffari] Mohsen Ghaffari, "An Improved Distributed Algorithm for Maximal Independent Set", ACM-SIAM Symposium on Discrete Algorithms (SODA) 2016. https://arxiv.org/abs/1506.05093.
 
-.. [Barenboim] Barenboim, Leonid, and Michael Elkin. "Sublogarithmic distributed MIS algorithm for sparse graphs using Nash-Williams decomposition." Distributed Computing 22.5-6 (2010): 363-379.
+.. [Barenboim] Barenboim, Leonid, and Michael Elkin. "Sublogarithmic distributed MIS algorithm for sparse graphs using Nash-Williams decomposition." Distributed Computing 22.5-6 (2010): 363-379. https://www.cs.bgu.ac.il/~elkinm/fp162-elkin.pdf.
 
-.. [Lub85]  Michael Luby. A simple parallel algorithm for the maximal independent set problem. In Proc. of the Symp. on Theory of Comp. (STOC), pages 1–10. ACM, 1985.
+.. [Lub85]  Michael Luby. A simple parallel algorithm for the maximal independent set problem. In Proc. of the Symp. on Theory of Comp. (STOC), pages 1–10. ACM, 1985. http://epubs.siam.org/doi/abs/10.1137/0215074
 
-.. [KMW04] Fabian Kuhn, Thomas Moscibroda, and Roger Wattenhofer. What cannot be computed locally! In the Proc. of the Int’l Symp. on Princ. of Dist. Comp. (PODC), pages 300–309.  ACM, 2004, also coRR abs/1011.5470v1.
+.. [KMW04] Fabian Kuhn, Thomas Moscibroda, and Roger Wattenhofer. What cannot be computed locally! In the Proc. of the Int’l Symp. on Princ. of Dist. Comp. (PODC), pages 300–309.  ACM, 2004, also coRR abs/1011.5470v1. https://www.microsoft.com/en-us/research/wp-content/uploads/2017/01/podc04.pdf.
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
