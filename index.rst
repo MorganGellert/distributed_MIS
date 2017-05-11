@@ -23,9 +23,9 @@ Lubys Algorithm
 
     <embed>
 
-  <script src="http://d3js.org/d3.v3.min.js"></script>
-  <script src="http://maurizzzio.github.io/greuler/scripts/lib/cola.v3.js"></script>
-  <script src="http://maurizzzio.github.io/greuler/greuler.min.js"></script>
+  <script src="_static/d3.v3.min.js"></script>
+  <script src="_static/cola.v3.js"></script>
+  <script src="_static/greuler.min.js"></script>
   <div id="luby_demo"><div id="luby"></div></div>
   <script src=_static/luby.js>  </script>
   <script>
@@ -58,16 +58,16 @@ Visualization
 .. raw:: html
 
     <embed>
-      <script src="http://d3js.org/d3.v3.min.js"></script>
-      <script src="http://maurizzzio.github.io/greuler/scripts/lib/cola.v3.js"></script>
-      <script src="http://maurizzzio.github.io/greuler/greuler.min.js"></script>
+      <script src="_static/d3.v3.min.js"></script>
+      <script src="_static/cola.v3.js"></script>
+      <script src="_static/greuler.min.js"></script>
       <div id="ghaffari_demo"><div id="ghaffari"></div></div>
       <script src=_static/ghaffari.js>  </script>
       <script>
-      myrun = function() {
+      myrun2 = function() {
         window.site.run();
       }
-      reset_luby = function() {
+      reset_ghaffari = function() {
         var parent = document.getElementById("ghaffari_demo");
         var child =  document.getElementById("ghaffari");
         parent.removeChild(child);
@@ -78,8 +78,8 @@ Visualization
       }
       </script>
 
-      <button onclick="myrun()"> One Ghaffari Iteration</button>
-      <button onclick="reset_luby()"> Reset Graph </button>
+      <button onclick="myrun2()"> One Ghaffari Iteration</button>
+      <button onclick="reset_ghaffari()"> Reset Graph </button>
     </embed>
 
 Each node has two numbers associated with it on the left we have the *desire-level* of the node and on the right we have the *effective-degree* of that node. Each node is colored a shade of blue according to its probability of being marked in the next round. All nodes are turned green (marked) with probability equal to their *desire-level*. Then any marked green node that has no green neighbors is marked red as belonging to the Maximal Independent Set, and its neighbors are removed. 
