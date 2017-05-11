@@ -8,11 +8,28 @@ Algorithms for Distributed Maximal Independent Set
 ==========================================================
   By Morgan Gellert and Alex Tong
 
+Introduction
+------------
+
+For our final project we studied Mohsen Ghaffari's paper **"An Improved Distributed Algorithm for Maximal Independent Set"**. This paper won the Best Paper Award (co-winner) and Best Student Paper Award at SODA 2016. 
+The Maximal Independent Set problem is a fundamental problem in distributed algorithms. Ghaffari's improvement of the best known global time complexity of [Barenboim_] et al. from :math:`O(log^2 \Delta) + 2 ^ {O( \sqrt{ log log n})}` to :math:`O(log \Delta) + 2 ^ {O( \sqrt{ log log n})}` therefore has great impact on other areas of the field. Ghaffari's time complexity approaches the known lower bound for distributed maximal set of :math:`\Omega( min \{ log \Delta, \sqrt{ log n} \})` [KMW04]_.
 
 The Problem
 -----------
 
-A maximal independent set is a subset :math:`H` of a graph :math:`G` which has no nodes that connect to each other. Additionally, there are no elements in :math:`G - H` that could be added to :math:`H` that would not violate this requirement.
+A Maximal Independent Set has two conditions:
+
+1. It is an independent set, defined as a set of nodes :math:`S \in V` s.t. :math:`\forall s1, s2 \in S` *s1* is not adjacent to *s2*.  
+2. A maximal independent set is one in which no other nodes in the graph can be added to the independent set. 
+
+Notice that a maximal independent set is an easily solved problem where a **maximum** independent set is a much harder problem. A maximum independent set can be stated as the largest maximal independent set possible in the graph *G*. This is because a maximal independent set problem can be solved locally where a **maximum** independent set problem is inherently global.
+
+We demonstrate a few algorithms for solving the distributed version of maximal independent set using a specific model on how nodes interact. We use the *LOCAL* model, essentially, computation nodes are arranged in a graph :math:`G = (V,E)` where neighbors in the graph can talk in constant time and communication rounds are synchronized across the entire graph. We take :math:`|V| = n` in this model. This model is often used in distributed colorings which has applications in networking and Monte Carlo algorithms [Lub85]_.
+
+The time complexity of these distributed algorithms bounds the possible neighborhood that the algorithm can talk to. 
+Trivially,  an algorithm that runs in :math:`O(log n)` time means that each node must consider other nodes at most :math:`O(log n)` hops away [Lub85]_. 
+
+For analysis, algorithms that restrict the range of communication allow for simpler proofs and clearer intuitions. 
 
 
 Lubys Algorithm
@@ -20,6 +37,8 @@ Lubys Algorithm
 
 Visualization
 +++++++++++++
+
+The number associated with each node is simply a random value between 0 and 1. Nodes that will be added to the Maximal Independent Set is marked red. Elements that are definitely not in the MIS are marked black. 
 
 .. raw:: html 
 
@@ -49,15 +68,12 @@ Visualization
   <button onclick="reset_luby()"> Reset Graph </button>
   </embed>
 
-
-The number associated with each node is simply a random value between 0 and 1. Nodes that will be added to the Maximal Independent Set is marked red. Elements that are definitely not in the MIS are marked black. 
-
 The Algorithm
 +++++++++++++
 
 Luby's Algorithm presents a :math:`O(log(|V|))` algorithm from computing a Maximal Independent Set. While it is true that each node finishes with high probability in :math:`O(log \Delta)` where :math:`\Delta` is its degree, it has been notoriously difficult to improve the global time complexity.
 
-The algorithm is incredibly simple: in each round each node is marked with a number between 0 and 1. Local minima are added to the Maximal Independent Set and their neighbors are removed from the graph. [Luby]_
+The algorithm is incredibly simple: in each round each node is marked with a number between 0 and 1. Local minima are added to the Maximal Independent Set and their neighbors are removed from the graph. [Lub85]_
 
 
 Time Complexity
@@ -77,6 +93,8 @@ Ghaffari's Algorithm
 
 Visualization
 +++++++++++++
+
+Each node has two numbers associated with it on the left we have the *desire-level* of the node and on the right we have the *effective-degree* of that node. Each node is colored a shade of blue according to its probability of being marked in the next round. All nodes are turned green (marked) with probability equal to their *desire-level*. Then any marked green node that has no green neighbors is marked red as belonging to the Maximal Independent Set, and its neighbors are removed.
 
 .. raw:: html
 
@@ -104,9 +122,6 @@ Visualization
       <button onclick="myrun2()"> One Ghaffari Iteration</button>
       <button onclick="reset_ghaffari()"> Reset Graph </button>
     </embed>
-
-Each node has two numbers associated with it on the left we have the *desire-level* of the node and on the right we have the *effective-degree* of that node. Each node is colored a shade of blue according to its probability of being marked in the next round. All nodes are turned green (marked) with probability equal to their *desire-level*. Then any marked green node that has no green neighbors is marked red as belonging to the Maximal Independent Set, and its neighbors are removed.
-
 
 The Algorithm
 +++++++++++++
@@ -170,12 +185,13 @@ The full proof can be found in [Ghaffari]_'s paper. Here we will provide a short
 References
 ----------
     
-.. [Ghaffari] Mohsen Ghaffari, "An Improved Distributed Algorithm for Maximal Independent Set", CoRR 2015.
+.. [Ghaffari] Mohsen Ghaffari, "An Improved Distributed Algorithm for Maximal Independent Set", ACM-SIAM Symposium on Discrete Algorithms (SODA) 2016.
 
 .. [Barenboim] Barenboim, Leonid, and Michael Elkin. "Sublogarithmic distributed MIS algorithm for sparse graphs using Nash-Williams decomposition." Distributed Computing 22.5-6 (2010): 363-379.
 
-.. [Luby] Luby, Michael. "A Simple Parallel Algorithm for the Maximal Independent Set Problem." SIAM Journal on Computing. 1985.
+.. [Lub85]  Michael Luby. A simple parallel algorithm for the maximal independent set problem. In Proc. of the Symp. on Theory of Comp. (STOC), pages 1–10. ACM, 1985.
 
+.. [KMW04] Fabian Kuhn, Thomas Moscibroda, and Roger Wattenhofer. What cannot be computed locally! In the Proc. of the Int’l Symp. on Princ. of Dist. Comp. (PODC), pages 300–309.  ACM, 2004, also coRR abs/1011.5470v1.
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
